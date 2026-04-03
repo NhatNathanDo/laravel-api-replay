@@ -37,9 +37,19 @@ class ApiReplayController extends Controller
     public function replay(Request $request, string $uuid)
     {
         try {
+            $overridesHeaders = [];
+            $keys = $request->input('header_keys', []);
+            $values = $request->input('header_values', []);
+
+            foreach ($keys as $index => $key) {
+                if (!empty($key) && isset($values[$index])) {
+                    $overridesHeaders[$key] = $values[$index];
+                }
+            }
+
             $overrides = [
                 'base_url' => $request->input('base_url'),
-                'headers' => $request->input('headers', []),
+                'headers' => $overridesHeaders,
                 'dry_run' => $request->boolean('dry_run', false),
             ];
 
