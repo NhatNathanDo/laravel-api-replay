@@ -15,8 +15,10 @@ Record incoming HTTP requests and responses, store them efficiently, and replay 
 
 1. Install via composer:
 ```bash
-composer require nhatdo/laravel-api-replay
+composer require nhatnathando/laravel-api-replay
 ```
+
+[View on Packagist](https://packagist.org/packages/nhatnathando/laravel-api-replay)
 
 2. Publish configuration, migrations, and UI views:
 ```bash
@@ -79,3 +81,10 @@ Check `config/api-replay.php` for options:
 ```bash
 ./vendor/bin/phpunit
 ```
+
+---
+
+<div align="center">
+    <p>If you find this package useful, please consider supporting my work:</p>
+    <a href='https://ko-fi.com/F1F81X5SHL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</div>
