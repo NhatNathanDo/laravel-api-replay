@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('response_body')->nullable();
             $table->integer('duration_ms');
             $table->string('ip')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->string('user_id')->nullable()->index();
             $table->timestamp('created_at')->index();
         });
 

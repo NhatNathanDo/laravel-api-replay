@@ -17,7 +17,7 @@ final class ApiLogDTO
         public readonly ?string $responseBody,
         public readonly int $durationMs,
         public readonly ?string $ip = null,
-        public readonly ?int $userId = null,
+        public readonly string|int|null $userId = null,
     ) {}
 
     public static function fromArray(array $data): self
