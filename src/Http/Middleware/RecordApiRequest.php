@@ -23,21 +23,34 @@ class RecordApiRequest
         if (!Config::get('api-replay.enabled', true)) {
             return $next($request);
         }
-        
 
-        if ($this->isIgnored($request)) {
+        if ($request->hasHeader('X-Api-Replay-Origin') || $this->isIgnored($request)) {
             return $next($request);
         }
 
-        $startTime = microtime(true);
+        $request->attributes->set('api_replay_start_time', microtime(true));
 
-        $response = $next($request);
+        return $next($request);
+    }
+
+    public function terminate(Request $request, Response $response): void
+    {
+        if (!Config::get('api-replay.enabled', true)) {
+            return;
+        }
+
+        if ($request->hasHeader('X-Api-Replay-Origin') || $this->isIgnored($request)) {
+            return;
+        }
+
+        $startTime = $request->attributes->get('api_replay_start_time');
+        if (!$startTime) {
+            return;
+        }
 
         $durationMs = (int) ((microtime(true) - $startTime) * 1000);
 
         $this->logRequest($request, $response, $durationMs);
-
-        return $response;
     }
 
     protected function isIgnored(Request $request): bool
@@ -92,12 +105,10 @@ class RecordApiRequest
             responseBody: (string) $responseBody,
             durationMs: $durationMs,
             ip: $request->ip(),
-            userId: $request->user()?->id,
+            userId: $request->user()?->id ?? \Illuminate\Support\Facades\Auth::id(),
         );
 
         if (Config::get('api-replay.queue_enabled', false)) {
-            // TODO: Dispatch job if queue is enabled
-            // For now, store directly as backup
             $this->repository->store($logDto);
         } else {
             $this->repository->store($logDto);

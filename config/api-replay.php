@@ -56,4 +56,20 @@ return [
         'access_token',
         'client_secret',
     ],
+
+    /*
+     * Custom header for dry run (safe simulation).
+     */
+    'dry_run_header' => env('API_REPLAY_DRY_RUN_HEADER', 'X-Api-Replay-Dry-Run'),
+
+    /*
+     * Environments where replay is allowed.
+     * Leave empty to allow all (not recommended).
+     */
+    'allow_replay_environments' => ['local', 'staging', 'development'],
+
+    /*
+     * Enable automatic DB rollback for dry run requests.
+     */
+    'enable_db_rollback' => env('API_REPLAY_ENABLE_ROLLBACK', true),
 ];

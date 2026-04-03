@@ -34,6 +34,8 @@ class MiddlewareUnitTest extends TestCase
             return new Response('success', 200);
         });
 
+        $middleware->terminate($request, $response);
+
         $this->assertEquals(200, $response->getStatusCode());
     }
 }
